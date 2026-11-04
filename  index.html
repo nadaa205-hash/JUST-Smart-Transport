@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+
+<html lang="ar" dir="rtl">
+
+<head>
+<link rel="icon" type="image/png" href="app-icon.png">
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>JUST Smart Transport</title>
+
+<style>
+
+* {
+
+    box-sizing: border-box;
+
+}
+
+body {
+
+    margin: 0;
+
+    font-family: Arial, sans-serif;
+
+    background: #eef3f9;
+
+    color: #173454;
+
+}
+
+header {
+
+    background: #102d50;
+
+    color: white;
+
+    padding: 25px 15px;
+
+    text-align: center;
+
+    border-radius: 0 0 25px 25px;
+
+}
+
+.logo {
+
+    font-size: 38px;
+
+}
+
+header h1 {
+
+    margin: 8px 0;
+
+    font-size: 25px;
+
+}
+
+header p {
+
+    margin: 5px;
+
+    color: #d5e3f3;
+
+}.container {
+    max-width: 480px;
+    margin: 25px auto;
+    padding: 15px;
+}
+
+.welcome {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.welcome h2 {
+    color: #102d50;
+}
+
+.card {
+    background: white;
+    padding: 22px;
+    margin-bottom: 18px;
+    border-radius: 18px;
+    box-shadow: 0 4px 12px #00000010;
+    cursor: pointer;
+    border: 1px solid #dce6f1;
+}
+
+.card h3 {
+    margin-top: 0;
+    font-size: 20px;
+}.card p {
+    color: #65758a;
+}
+
+button {
+    background: #102d50;
+    color: white;
+    border: none;
+    padding: 13px 20px;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #244b75;
+}
+
+.secondary {
+    background: #dce8f5;
+    color: #102d50;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}.map {
+    width: 100%;
+    height: 320px;
+    min-height: 280px;
+    box-sizing: border-box;
+
+    background: #dce8df;
+    border-radius: 18px;
+
+    position: relative;
+    overflow: hidden;
+
+    border: 2px solid #c5d5ca;
+    margin: 18px 0;
+
+    background-image:
+      linear-gradient(30deg, transparent 47%, #ffffff 48%, #ffffff 51%, transparent 52%),
+      linear-gradient(120deg, transparent 47%, #ffffff 48%, #ffffff 51%, transparent 52%);
+
+    background-size: 100px 100px;
+}
+
+.map-title {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: white;
+    padding: 9px;
+    border-radius: 8px;
+    font-size: 13px;
+}.bus {
+    position: absolute;
+    top: 48%;
+    left: 48%;
+    width: 150px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    z-index: 5;
+}
+
+.bus-section {
+    flex: 1;
+    height: 42px;
+    position: relative;
+    border: 2px solid #333;
+    border-radius: 5px;
+    background:
+        linear-gradient(to bottom, transparent 0 15%, #263746 16% 43%, transparent 44%),
+        linear-gradient(to bottom, #f4f0df 0 55%, var(--bus-color) 55% 100%);
+}
+
+.bus-section::before,
+.bus-section::after {
+    content: "";
+    position: absolute;
+    bottom: -9px;
+	width: 14px;
+    height: 14px;
+    background: #222;
+    border: 2px solid #888;
+    border-radius: 50%;
+}
+
+.bus-section::before {
+    left: 12px;
+}
+
+.bus-section::after {
+    right: 12px;
+}
+
+.bus-joint {
+    width: 14px;
+    height: 38px;
+    background: repeating-linear-gradient(
+        90deg,
+        #222 0 3px,
+        #777 3px 5px
+    );
+}
+
+.red-bus {
+    --bus-color: #d92b32;
+}
+
+.blue-bus {
+    --bus-color: #2468b4;
+}
+
+.green-bus {
+    --bus-color: #26834a;
+}
+
+.stop {
+    position: absolute;
+    background: #102d50;
+    color: white;
+
+    padding: 9px 13px;
+    border-radius: 20px;
+
+    font-size: 12px;
+    font-weight: bold;
+
+    border: 2px solid #ffffff;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+
+    z-index: 2;
+    white-space: nowrap;
+}
+
+.stop1 {
+    top: 25%;
+    left: 10%;
+}
+
+.stop2 {
+    top: 65%;
+    right: 10%;
+}
+
+.stop3 {
+    bottom: 12%;
+    left: 25%;
+}
+
+.info {
+    background: white;
+    padding: 18px;
+    border-radius: 15px;
+    margin: 15px 0;
+}.status {
+    color: #b7791f;
+    font-weight: bold;
+}
+
+.stop-list {
+    background: white;
+    border-radius: 15px;
+    padding: 15px;
+}
+
+.stop-item {
+    padding: 13px 5px;
+    border-bottom: 1px solid #e4eaf1;
+}
+
+footer {
+    text-align: center;
+    color: #8794a4;
+    padding: 20px;
+    font-size: 13px;
+}
+
+.language {
+    width: auto;
+    background: white;
+    color: #102d50;
+    padding: 8px 15px;
+}
+@keyframes busMove {
+    0% {
+        left: 10%;
+        top: 25%;
+    }
+
+    50% {
+        left: 65%;
+        top: 45%;
+    }
+
+    100% {
+        left: 25%;
+        top: 70%;
+    }
+}
+
+#movingBus {
+    animation: busMove 8s ease-in-out infinite alternate;
+}
+@keyframes housingBusMove {
+    0% {
+        left: 10%;
+        top: 30%;
+    }
+
+    50% {
+        left: 60%;
+        top: 45%;
+    }
+
+    100% {
+        left: 25%;
+        top: 70%;
+    }
+}
+
+#housingMovingBus {
+    animation: housingBusMove 8s ease-in-out infinite alternate;
+}
+#selectedStop {
+    background: #ffffff;
+    color: #183153;
+    padding: 18px;
+    margin-top: 15px;
+    border-radius: 14px;
+    border: 1px solid #d6e2f0;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    line-height: 1.9;
+    font-size: 15px;
+    text-align: right;
+}
+.housing-card {
+    background: #ffffff;
+    color: #183153;
+    padding: 20px;
+    margin: 15px 0;
+    border-radius: 16px;
+    border: 1px solid #d6e2f0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: right;
+    line-height: 2;
+}
+
+.housing-card h3 {
+    color: #315f91;
+    margin-top: 0;
+    border-bottom: 1px solid #d6e2f0;
+    padding-bottom: 10px;
+}
+#housingSelection {
+    background: #eaf3ff;
+    color: #183153;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 16px;
+    border: 2px solid #315f91;
+    line-height: 2;
+    text-align: right;
+    font-size: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+#housingMovingBus {
+    width: auto;
+    height: auto;
+    display: block;
+    font-size: 42px;
+    line-height: normal;
+    background: none;
+    border: none;
+}
+/* ترتيب وتصغير باصات الدودة */
+.bus {
+    width: 110px;
+    height: 38px;
+}
+
+.bus-section {
+    height: 32px;
+}
+
+.bus-joint {
+    width: 10px;
+    height: 30px;
+}
+
+/* مكان الباص الأزرق */
+#blueBus {
+    top: 65%;
+    left: 10%;
+    animation: blueBusMove 10s ease-in-out infinite alternate;
+}
+
+/* حركة الباص الأزرق */
+@keyframes blueBusMove {
+    0% { left: 10%; top: 65%; }
+    100% { left: 65%; top: 20%; }
+}
+
+/* الباص الأخضر واقف */
+#greenBus {
+    top: 12%;
+    left: 65%;
+    animation: none;
+}
+/* معلومات الباصات */
+#movingBus::after,
+#blueBus::after,
+#greenBus::after {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    width: 125px;
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 2px 6px #999;
+}
+
+#movingBus::after {
+    content: "الأحمر - يعمل";
+    color: #d92b32;
+}
+
+#blueBus::after {
+    content: "الأزرق - يعمل";
+    color: #2468b4;
+}
+
+#greenBus::after {
+    content: attr(data-status);
+    color: #26834a;
+}
+@keyframes greenBusMove {
+    0% { left: 15%; top: 15%; }
+    50% { left: 40%; top: 65%; }
+    100% { left: 75%; top: 25%; }
+}
+#busDetails {
+    position: absolute !important;
+    top: -105px !important;
+    left: 0 !important;
+    width: 190px !important;
+    padding: 7px !important;
+    margin: 0 !important;
+    font-size: 10px !important;
+    line-height: 1.5 !important;
+    border-radius: 12px;
+    z-index: 30;
+    box-shadow: 0 3px 8px #777;
+    text-align: right;
+}
+#busDetails::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 25px;
+    border-width: 10px 10px 0;
+    border-style: solid;
+    border-color: #eaf3ff transparent transparent;
+}
+.bus.selected {
+    filter: drop-shadow(0 0 8px #ffcc00);
+    transform: scale(1.08);
+    z-index: 10;
+}
+#splashScreen {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, #102b50, #315f91);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    color: white;
+    text-align: center;
+}
+
+.splash-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.splash-logo {
+    font-size: 75px;
+    margin-bottom: 10px;
+}
+
+.splash-content h1 {
+    font-size: 42px;
+    margin: 0;
+    letter-spacing: 3px;
+}
+
+.splash-content h2 {
+    font-size: 25px;
+    margin: 0;
+}
+
+.splash-content p {
+    font-size: 13px;
+    color: #dce8f5;
+}
+
+.loader {
+    width: 42px;
+    height: 42px;
+    border: 4px solid #ffffff55;
+    border-top: 4px solid white;
+    border-radius: 50%;
+    animation: loadingSpin 1s linear infinite;
+    margin-top: 20px;
+}
+
+@keyframes loadingSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+#housingSecondBus {
+width: auto;
+height: auto;
+display: block;
+font-size: 42px;
+line-height: normal;
+background: none;
+border: none;
+    top: 15%;
+    left: 60%;
+    animation: housingSecondBusMove 10s ease-in-out infinite alternate;
+}
+
+@keyframes housingSecondBusMove {
+    0% {
+        left: 60%;
+        top: 15%;
+    }
+
+    100% {
+        left: 15%;
+        top: 65%;
+    }
+}
+.housing-bus-label {
+    position: absolute;
+    top: 45px;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    background: white;
+    color: #183153;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    box-shadow: 0 2px 6px #999;
+}
+</style>
+</head>
+
+<body>
+
+<div id="splashScreen">
+    <div class="splash-content">
+        <div class="splash-logo">🚌</div>
+        <h1>JUST</h1>
+        <h2>Smart Transport</h2>
+        <p>Intelligent Campus Transportation System</p>
+        <div class="loader"></div>
+        <span>Loading...</span>
+    </div>
+</div>
+
+<header>
+    <div class="logo">🚌</div>
+    <h1>JUST Smart Transport</h1>
+    <p>Intelligent Campus Transportation System</p>
+    <button class="language" onclick="changeLanguage()" id="langBtn">English</button>
+</header>
+
+<!-- الصفحة الرئيسية -->
+<div class="container page active" id="home">
+
+    <div class="welcome">
+        <h2 id="welcomeTitle">تنقّل بذكاء!</h2>
+        <p id="welcomeText">تابع باصات الجامعة واعرف أماكنها بسهولة.</p>
+    </div>
+
+    <div class="card" onclick="showPage('doodle')">
+        <h3 id="doodleTitle">🚌 باص الدودة</h3>
+        <p id="doodleText">تعرّف على مواقف الباص ومساره داخل الجامعة.</p>
+        <button id="doodleButton">عرض باص الدودة</button>
+    </div><div class="card" onclick="showPage('housing')">
+        <h3 id="housingTitle">🏠 باصات السكنات</h3>
+        <p id="housingText">تعرّف على باصات السكنات ووجهاتها.</p>
+        <button id="housingButton">عرض باصات السكنات</button>
+    </div>
+
+</div>
+
+<!-- صفحة باص الدودة -->
+<div class="container page" id="doodle">
+
+    <h2 id="doodlePageTitle">🚌 باص الدودة</h2>
+    <p id="doodleDescription">تابع مسار الباص ومواقفه داخل الجامعة.</p>
+
+    <div class="info">
+        <p id="busStatus">حالة الباص:</p>
+        <span class="status" id="statusText">بانتظار ربط الموقع الحقيقي</span>
+    </div><div class="map" onclick="hideBusDetails(event)">
+
+    <svg viewBox="0 0 400 300"
+         style="position:absolute;width:100%;height:100%;"
+         preserveAspectRatio="none">
+
+        <path d="M 45 75 L 130 110 L 200 145 L 300 190 L 350 240"
+              fill="none"
+              stroke="#315f91"
+              stroke-width="7"
+              stroke-linecap="round"
+              stroke-dasharray="12 8"/>
+    </svg>
+
+    <div class="map-title" id="mapTitle">
+        خريطة تجريبية - ليست موقعاً حقيقياً
+    </div>
+
+    <div class="bus red-bus" id="movingBus" onclick="showBusDetails('red')">
+    <div class="bus-section"></div>
+    <div class="bus-joint"></div>
+    <div class="bus-section"></div>
+</div>
+
+<div class="bus blue-bus" id="blueBus" onclick="showBusDetails('blue')">
+    <div class="bus-section"></div>
+    <div class="bus-joint"></div>
+    <div class="bus-section"></div>
+</div>
+
+<div class="bus green-bus" id="greenBus" onclick="showBusDetails('green')">
+    <div class="bus-section"></div>
+    <div class="bus-joint"></div>
+    <div class="bus-section"></div>
+</div>
+<div id="busDetails" style="
+    display:none;
+    background:#eaf3ff;
+    color:#183153;
+    padding:15px;
+    margin:15px 0;
+    border-radius:12px;
+    border:2px solid #315f91;
+    line-height:2;
+    text-align:right;
+">
+</div>
+
+    <div class="stop stop1">مظلة الكليات</div>
+    <div class="stop stop2">مظلة المول</div>
+    <div class="stop stop3">مظلة المجمع</div>
+
+    <div class="stop" style="bottom:10%;right:25%;">
+        مظلة البحيرة
+    </div>
+
+</div>
+
+    <div class="stop-list">
+    <h3 id="stopsTitle">📍 مواقف باص الدودة</h3>
+
+    <div class="stop-item" onclick="selectStop(this)">
+        📍 مظلة كليات الطب والتمريض والصيدلة
+    </div>
+
+    <div class="stop-item" onclick="selectStop(this)">
+        📍 مظلة المول
+    </div>
+
+    <div class="stop-item" onclick="selectStop(this)">
+        📍 مظلة المجمع
+    </div>
+
+    <div class="stop-item" onclick="selectStop(this)">
+        📍 المظلة القريبة من البحيرة
+    </div>
+
+    <p id="selectedStop">اختاري الموقف لمعرفة تفاصيله</p>
+</div><button class="secondary" onclick="showPage('home')" id="backButton">العودة للرئيسية</button>
+
+</div>
+
+<!-- صفحة باصات السكنات -->
+<div class="container page" id="housing">
+
+    <h2 id="housingPageTitle">🏠 باصات السكنات</h2>
+    <p id="housingDescription">قريباً ستظهر هنا معلومات الباصات ووجهاتها.</p>
+
+    <div class="housing-card" onclick="selectHousingBus(this)" data-bus="1">
+
+    <h3>🚌 باص السكن رقم 1</h3>
+
+    <p>📍 الوجهة: سكن الطالبات</p>
+
+    <p>🛣️ خط السير: سيتم تحديده رسميًا</p>
+
+    <p>📡 حالة الباص: بانتظار ربط GPS</p>
+
+    <p>⏱️ وقت الوصول: غير متاح حاليًا</p>
+
+</div>
+
+<div class="housing-card" onclick="selectHousingBus(this)" data-bus="2">
+
+    <h3>🚌 باص السكن رقم 2</h3>
+
+    <p>📍 الوجهة: سكن الطلاب</p>
+
+    <p>🛣️ خط السير: سيتم تحديده رسميًا</p>
+
+    <p>📡 حالة الباص: بانتظار ربط GPS</p>
+
+    <p>⏱️ وقت الوصول: غير متاح حاليًا</p>
+
+</div>
+<div id="housingSelection" class="info" style="margin-top:20px;">
+    اختاري باصًا لعرض تفاصيله هنا.
+</div><div class="map" id="housingMap" style="display:none; margin-top:20px;">
+<svg viewBox="0 0 400 300"
+style="position:absolute;width:100%;height:100%;"
+preserveAspectRatio="none">
+<path d="M 45 75 L 130 110 L 200 145 L 300 190 L 350 240"
+      fill="none"
+      stroke="#315f91"
+      stroke-width="7"
+      stroke-linecap="round"
+      stroke-dasharray="12 8"/>
+
+    <div class="map-title">
+        خريطة تجريبية لباصات السكنات
+    </div>
+
+    <div class="bus" id="housingMovingBus" onclick="selectHousingBusByNumber(1)">
+    🚌
+    <span class="housing-bus-label">سكن الطالبات</span>
+</div>
+	<div class="bus housing-bus-second" id="housingSecondBus" onclick="selectHousingBusByNumber(2)">
+    🚌
+    <span class="housing-bus-label">سكن الطلاب</span>
+</div>
+
+    <div class="stop stop1">نقطة الانطلاق</div>
+
+    <div class="stop stop2">الجامعة</div>
+
+    <div class="stop stop3">السكن</div>
+
+</div>
+    <button class="secondary" onclick="showPage('home')" id="backHousing">العودة للرئيسية</button>
+
+</div>
+
+<footer>
+    JUST Smart Transport © 2026
+</footer>
+
+<script>
+let english = false;function showPage(pageId) {
+    document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
+    });
+
+    document.getElementById(pageId).classList.add("active");
+    window.scrollTo(0, 0);
+}
+
+function selectStop(element) {
+
+    const stopName = element.innerText;
+
+    const details = document.getElementById("selectedStop");
+
+    details.innerHTML =
+        "<strong>📍 الموقف المختار:</strong> " + stopName +
+        "<br><br>🚌 حالة الباص: بانتظار تحديث الموقع" +
+        "<br><br>⏱️ وقت الوصول المتوقع: غير متاح حاليًا";
+
+    document.querySelectorAll(".stop-item").forEach(stop => {
+        stop.style.background = "";
+        stop.style.border = "";
+    });
+
+    element.style.background = "#dceeff";
+    element.style.border = "2px solid #315f91";
+}
+function selectHousingBus(element) {
+
+    document.querySelectorAll(".housing-card").forEach(card => {
+        card.style.background = "#ffffff";
+        card.style.border = "1px solid #d6e2f0";
+    });
+
+    element.style.background = "#dceeff";
+    element.style.border = "2px solid #315f91";
+
+    const busNumber = element.getAttribute("data-bus");
+
+    const housingMap = document.getElementById("housingMap");
+    housingMap.style.display = "block";
+
+    const busDetails = document.getElementById("housingSelection");
+
+    let destination = busNumber == "1" ? "سكن الطالبات" : "سكن الطلاب";
+
+    busDetails.innerHTML =
+        "<strong>🚌 الباص المختار: رقم " + busNumber + "</strong>" +
+        "<br>📍 الوجهة: " + destination +
+        "<br>🛣️ خط السير: سيتم تحديده رسميًا" +
+        "<br>📡 حالة الباص: بانتظار ربط GPS" +
+        "<br>⏱️ وقت الوصول: غير متاح حاليًا";
+}
+function changeLanguage() {
+    english = !english;
+
+    document.documentElement.lang = english ? "en" : "ar";
+    document.documentElement.dir = english ? "ltr" : "rtl";document.getElementById("langBtn").innerText =
+        english ? "العربية" : "English";
+
+    const translations = {
+        welcomeTitle: ["Smart Travel!", "تنقّل بذكاء!"],
+        welcomeText: [
+            "Track university buses easily.",
+            "تابع باصات الجامعة واعرف أماكنها بسهولة."
+        ],
+        doodleTitle: ["🚌 Doodle Bus", "🚌 باص الدودة"],
+        doodleText: [
+            "Explore the bus route and campus stops.",
+            "تعرّف على مواقف الباص ومساره داخل الجامعة."
+        ],
+        doodleButton: ["View Doodle Bus", "عرض باص الدودة"],
+        housingTitle: ["🏠 Housing Buses", "🏠 باصات السكنات"],
+        housingText: [
+            "Explore housing buses and destinations.",
+            "تعرّف على باصات السكنات ووجهاتها."],
+        housingButton: ["View Housing Buses", "عرض باصات السكنات"],
+        doodlePageTitle: ["🚌 Doodle Bus", "🚌 باص الدودة"],
+        doodleDescription: [
+            "Track the bus route and campus stops.",
+            "تابع مسار الباص ومواقفه داخل الجامعة."
+        ],
+        busStatus: ["Bus status:", "حالة الباص:"],
+        statusText: [
+            "Waiting for real GPS connection",
+            "بانتظار ربط الموقع الحقيقي"
+        ],
+        mapTitle: [
+            "Demo map - Not a real location",
+            "خريطة تجريبية - ليست موقعاً حقيقياً"],
+        stopsTitle: ["📍 Bus Stops", "📍 مواقف الباص"],
+        stop1Text: ["University Stop 1", "موقف الجامعة الأول"],
+        stop2Text: ["University Stop 2", "موقف الجامعة الثاني"],
+        stop3Text: ["University Stop 3", "موقف الجامعة الثالث"],
+        backButton: ["Back to Home", "العودة للرئيسية"],
+        housingPageTitle: ["🏠 Housing Buses", "🏠 باصات السكنات"],
+        housingDescription: [
+            "Bus information and destinations will appear here soon.",
+            "قريباً ستظهر هنا معلومات الباصات ووجهاتها."
+        ],housingInfoTitle: ["Bus Information", "معلومات الباصات"],
+        housingInfo: [
+            "Bus numbers and routes will be added after receiving official data.",
+            "سيتم إضافة أرقام الباصات ومساراتها بعد الحصول على البيانات الرسمية."
+        ],
+        backHousing: ["Back to Home", "العودة للرئيسية"]
+    };
+
+    for (let id in translations) {
+        document.getElementById(id).innerText =
+            translations[id][english ? 0 : 1];
+    }
+}
+function updateGreenBus() {
+    const greenBus = document.getElementById("greenBus");
+
+    if (!greenBus) return;
+
+    const now = new Date();
+    const startTime = new Date();
+
+    startTime.setHours(10, 0, 0, 0);
+
+    if (now >= startTime) {
+        greenBus.setAttribute("data-status", "الأخضر - يعمل الآن");
+
+        greenBus.style.animation =
+            "greenBusMove 12s ease-in-out infinite alternate";
+
+        greenBus.classList.add("active");
+
+    } else {
+	const remaining = startTime - now;
+
+        const hours = Math.floor(remaining / 3600000);
+        const minutes = Math.floor((remaining % 3600000) / 60000);
+        const seconds = Math.floor((remaining % 60000) / 1000);
+
+        let message = "الأخضر - باقي ";
+
+        if (hours > 0) {
+            message += hours + " ساعة و";
+        }
+
+        message += minutes + " دقيقة و" + seconds + " ثانية";
+
+        greenBus.setAttribute("data-status", message);
+
+        greenBus.style.animation = "none";
+        greenBus.classList.remove("active");
+    }
+}
+
+updateGreenBus();
+setInterval(updateGreenBus, 1000);
+function showBusDetails(color) {
+
+    const details = document.getElementById("busDetails");
+
+    let busName = "";
+    let busColor = "";
+    let status = "";
+
+    if (color === "red") {
+        busName = "الباص الأحمر";
+        busColor = "أحمر";
+        status = "يعمل الآن";
+    }
+
+    else if (color === "blue") {
+        busName = "الباص الأزرق";
+        busColor = "أزرق";
+        status = "يعمل الآن";
+    }
+	else if (color === "green") {
+        busName = "الباص الأخضر";
+        busColor = "أخضر";
+        status = document.getElementById("greenBus")
+            .getAttribute("data-status");
+    }
+
+    details.innerHTML =
+        "<strong>🚌 " + busName + "</strong>" +
+        "<br>🎨 لون الباص: " + busColor +
+        "<br>📡 الحالة: " + status +
+        "<br>🛣️ المسار: مسار باص الدودة داخل الجامعة" +
+        "<br><br>⚠️ بيانات الحركة تجريبية وليست GPS حقيقيًا.";
+
+    let selectedBus;
+
+if (color === "red") {
+    selectedBus = document.getElementById("movingBus");
+} else if (color === "blue") {
+    selectedBus = document.getElementById("blueBus");
+} else {
+    selectedBus = document.getElementById("greenBus");
+}
+document.querySelectorAll(".bus").forEach(bus => {
+    bus.classList.remove("selected");
+});
+
+selectedBus.classList.add("selected");
+    selectedBus.appendChild(details);
+
+    details.style.display = "block";
+}
+function hideBusDetails(event) {
+
+    if (event.target.closest(".bus")) {
+        return;
+    }
+
+    const details = document.getElementById("busDetails");
+    details.style.display = "none";
+	document.querySelectorAll(".bus").forEach(bus => {
+    bus.classList.remove("selected");
+});
+}
+window.addEventListener("load", function () {
+
+    setTimeout(function () {
+
+        const splash = document.getElementById("splashScreen");
+
+        if (splash) {
+            splash.style.display = "none";
+        }
+
+    }, 3000);
+
+});
+function selectHousingBusByNumber(number) {
+    const card = document.querySelector(
+        '.housing-card[data-bus="' + number + '"]'
+    );
+
+    if (card) {
+        selectHousingBus(card);
+    }
+}
+</script>
+
+</body>
+</html>
